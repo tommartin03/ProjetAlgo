@@ -59,13 +59,12 @@ def TestCycleEulerien(G, cycle):
 def lire_graphe_json(fichier):
     with open(fichier, 'r') as f:
         graphe = json.load(f)
-    # Assurez-vous que les clés sont des entiers si c'est le cas dans le graphe
     graphe = {int(k): v for k, v in graphe.items()}
     return graphe
 
 def main():
     graphe = lire_graphe_json("graphes.json")
-    VerifGrapheEulerien(graphe)
+    print(VerifGrapheEulerien(graphe))
 
 if __name__ == "__main__":
     main()
