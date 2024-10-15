@@ -52,8 +52,23 @@ def VerifGrapheEulerien(G):
 
     return True
 
-def TestCycleEulerien(G, cycle):
+def TestCycleEulerien(G, C):
+   """
+    Vérifie si la liste C est un cycle eulérien de G
+    """
    #Todo
+   return None
+
+def EstIsthme(G, e):
+    """
+    Vérifie  si l’arête e est un isthme de G
+    """
+
+    #Todo
+    return None
+
+def Fleury(G,u):
+    #Todo
    return None
 
 def lire_graphe_json(fichier):
