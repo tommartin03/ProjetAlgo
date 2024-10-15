@@ -1,3 +1,4 @@
+import json
 from random import choice
 from copy import deepcopy
 
@@ -55,17 +56,17 @@ def TestCycleEulerien(G, cycle):
    #Todo
    return None
 
-# Exemple de graphe G1
-G2_correct = {
-    '1': ['5', '3'],
-    '2': ['A', 'D', 'C'],
-    '3': ['A', 'B', 'D'],
-    '4': ['B', 'C', 'E'],
-    '5': ['D']
-}
+def lire_graphe_json(fichier):
+    with open(fichier, 'r') as f:
+        graphe = json.load(f)
+    # Assurez-vous que les clés sont des entiers si c'est le cas dans le graphe
+    graphe = {int(k): v for k, v in graphe.items()}
+    return graphe
 
+def main():
+    graphe = lire_graphe_json("graphes.json")
+    VerifGrapheEulerien(graphe)
 
-print(VerifGrapheEulerien(G2_correct))
-cycle_test = ['A', 'C', 'D', 'A', 'E', 'B', 'D', 'E', 'A']
-is_cycle_eulerian = TestCycleEulerien(G2_correct, cycle_test)
-print("Le cycle est eulérien :", is_cycle_eulerian)
+if __name__ == "__main__":
+    main()
+
