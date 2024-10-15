@@ -1,16 +1,6 @@
 from random import choice
 from copy import deepcopy
 
-def est_complet(G):
-    """
-    Fonction qui indique si le graphe G est complet.
-    """
-    for S0 in G:
-        for S in G:
-            # S'il existe deux sommets non reliés, le graphe n'est pas complet.
-            if S != S0 and S not in G[S0]:
-                return False
-    return True
 
 def est_connexe(G, S0=None, atteint=None, profondeur=0):
     """
@@ -41,28 +31,12 @@ def est_connexe(G, S0=None, atteint=None, profondeur=0):
     
     return est_connexe(G, S0, atteint, profondeur + 1)      
 
-def non_oriente(G):
-    """
-    Vérifie si le graphe G est non orienté.
-    """
-    for S0 in G:
-        for S in G[S0]: 
-            # S'il existe une arête non réciproque, le graphe est orienté.
-            if S0 not in G[S]: 
-                return False
-    return True
-
 def VerifGrapheEulerien(G):
     """
     Vérifie si un graphe est eulérien.
     Un graphe est eulérien s'il est connexe et que tous ses sommets ont un degré pair.
     """
     G = deepcopy(G)
-
-    # Vérification si le graphe est non orienté.
-    if not non_oriente(G):
-        print("Arrêt. Le graphe soumis est un graphe orienté.")
-        return False
 
     # Vérification de la connexité.
     if not est_connexe(G):
@@ -78,34 +52,8 @@ def VerifGrapheEulerien(G):
     return True
 
 def TestCycleEulerien(G, cycle):
-    """
-    Vérifie si une liste de sommets représente un cycle eulérien.
-    Le cycle doit passer par chaque arête exactement une fois et revenir au point de départ.
-    """
-    G = deepcopy(G)
-    
-    # Vérifier que le cycle commence et se termine au même sommet
-    if cycle[0] != cycle[-1]:
-        return False
-    
-    # Parcourir chaque sommet du cycle
-    for i in range(len(cycle) - 1):
-        u, v = cycle[i], cycle[i + 1]
-        
-        # Vérifier si l'arête (u, v) existe
-        if v not in G[u]:
-            return False
-        
-        # Supprimer l'arête (u, v) du graphe
-        G[u].remove(v)
-        G[v].remove(u)
-
-    # Vérifier que toutes les arêtes ont été utilisées
-    for voisins in G.values():
-        if voisins:
-            return False
-
-    return True
+   #Todo
+   return None
 
 # Exemple de graphe G1
 G2_correct = {
