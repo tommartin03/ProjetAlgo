@@ -90,17 +90,44 @@ def nombre_aretes(graphe):
     # Comme le graphe est non orienté, chaque arête est comptée deux fois.
     return count // 2
 
+
 def EstIsthme(G, e):
     """
-    Vérifie  si l’arête e est un isthme de G
+    Vérifie si l’arête e = (u, v) est un isthme de G.
+    Une arête e est un isthme si sa suppression déconnecte les sommets qu'elle relie.
     """
+    G = deepcopy(G)
+    u, v = e
 
-    #Todo
-    return None
+    # On supprime l'arête e.
+    G[u].remove(v)
+    G[v].remove(u)
 
-def Fleury(G,u):
-    #Todo
-   return None
+    # On vérifie si le graphe est toujours connexe.
+    if not est_connexe(G):
+        return True
+
+    return False
+
+
+def Fleury(G, S):
+    """
+    Algorithme de Fleury pour trouver un cycle eulérien dans un graphe.
+    """
+    G = deepcopy(G)
+    cycle = [S]
+
+    while len(G[S]) > 0:
+        for i, S_suivant in enumerate(G[S]):
+            if not EstIsthme(G, [S, S_suivant]):
+                break
+
+        cycle.append(S_suivant)
+        G[S].remove(S_suivant)
+        G[S_suivant].remove(S)
+        S = S_suivant
+
+    return cycle
 
 def lire_graphe_json(fichier):
     with open(fichier, 'r') as f:
@@ -113,6 +140,8 @@ def main():
     C = [1, 2, 4, 3, 2, 5, 1,6,7,1]
     print(TestCycleEulerien(graphe,C))
     print(VerifGrapheEulerien(graphe))
+    print(EstIsthme(graphe,[2,3]))
+    print(Fleury(graphe,1))
 
 if __name__ == "__main__":
     main()
