@@ -8,28 +8,19 @@ def est_connexe(G, S0=None, atteint=None, profondeur=0):
     Fonction qui indique si le graphe G est connexe.
     """
     if not atteint: 
-        atteint = []
-        
-    # Si on a atteint tous les sommets, le graphe est connexe.
+        atteint = []   
     if len(atteint) == len(G): 
         return True
-    
-    # Si on a effectué suffisamment de profondeur et qu'on n'a pas atteint tous les sommets, il n'est pas connexe.
     if profondeur >= len(G): 
         return False
-    
-    # On choisit un sommet de départ.
     if not S0: 
         S0 = choice([S for S in G])
         atteint.append(S0)
         profondeur += 1
-    
-    # Pour chaque sommet déjà atteint, on complète la liste avec les sommets que l'on peut atteindre.
     for S in atteint:
         for adj in G[S]:
             if adj not in atteint:
                 atteint.append(adj)
-    
     return est_connexe(G, S0, atteint, profondeur + 1)      
 
 def VerifGrapheEulerien(G):
@@ -38,29 +29,22 @@ def VerifGrapheEulerien(G):
     Un graphe est eulérien s'il est connexe et que tous ses sommets ont un degré pair.
     """
     G = deepcopy(G)
-
-    # Vérification de la connexité.
     if not est_connexe(G):
         print("Le graphe n'est pas connexe, donc il n'y a ni chaîne ni cycle eulérien.")
         return False
-
-    # Vérification des degrés pairs.
     for sommet in G:
         if len(G[sommet]) % 2 != 0:
             print(f"Le sommet {sommet} a un degré impair, donc le graphe n'est pas eulérien.")
             return False
-
     return True
 
 def TestCycleEulerien(G, C):
     """
     Vérifie si la liste C est un cycle eulérien de G
     """
-    est_passe = [] #liste ou l'on met toutes les arêtes ou l'on est passé
+    est_passe = [] 
     for i in range (len(C)-1): 
-        #on vérifie que C[i+1] est bien voisin de C[i] dans le graphe
         if C[i+1] in G[C[i]]:
-            #on verifie qu'on a pas déjà pris cette arêtes 
             if [C[i],C[i+1]] not in est_passe and [C[i+1],C[i]] not in est_passe:
                 est_passe.append([C[i],C[i+1]])
             else:
@@ -69,11 +53,9 @@ def TestCycleEulerien(G, C):
         else:
             print(C[i+1],",", G[C[i]])
             return False
-    #on verifie qu'on est bien passé par toute les arêtes 
     if(len(est_passe) == nombre_aretes(G)):
         return True
     else:
-        
         return False
      
 def nombre_aretes(graphe):
@@ -86,8 +68,6 @@ def nombre_aretes(graphe):
     count = 0
     for sommet, adjacents in graphe.items():
         count += len(adjacents)
-    
-    # Comme le graphe est non orienté, chaque arête est comptée deux fois.
     return count // 2
 
 
@@ -98,15 +78,10 @@ def EstIsthme(G, e):
     """
     G = deepcopy(G)
     u, v = e
-
-    # On supprime l'arête e.
     G[u].remove(v)
     G[v].remove(u)
-
-    # On vérifie si le graphe est toujours connexe.
     if not est_connexe(G):
         return True
-
     return False
 
 
@@ -116,17 +91,14 @@ def Fleury(G, S):
     """
     G = deepcopy(G)
     cycle = [S]
-
     while len(G[S]) > 0:
         for i, S_suivant in enumerate(G[S]):
             if not EstIsthme(G, [S, S_suivant]):
                 break
-
         cycle.append(S_suivant)
         G[S].remove(S_suivant)
         G[S_suivant].remove(S)
         S = S_suivant
-
     return cycle
 
 def lire_graphe_json(fichier):
